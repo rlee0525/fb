@@ -96,6 +96,7 @@ def is_match(string, pattern)
       elsif pattern[j - 1] == "*"
         table[i][j] = table[i][j - 2]
         if string[i - 1] == pattern[j - 2] || pattern[j - 2] == "."
+          # Whatever is true takes precedence
           table[i][j] = table[i][j] || table[i - 1][j]
         end
       end
@@ -105,8 +106,37 @@ def is_match(string, pattern)
   table[string.length][pattern.length]
 end
 
+# 13) Roman to Integer
+# Given a roman numeral, convert it to an integer.
+# Input is guaranteed to be within the range from 1 to 3999.
 
+def roman_to_int(s)
+  romans = {
+    "I" => 1,
+    "V" => 5,
+    "X" => 10,
+    "L" => 50,
+    "C" => 100,
+    "D" => 500,
+    "M" => 1000
+  }
 
+  prev, result, idx = 0, 0, s.length - 1
+
+  while idx >= 0
+    current = romans[s[idx]]
+    if current >= prev
+      result += current
+    else
+      result -= current
+    end
+
+    prev = current
+    idx -= 1
+  end
+
+  result
+end
 
 
 
