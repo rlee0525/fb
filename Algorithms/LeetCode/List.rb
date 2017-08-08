@@ -241,7 +241,98 @@ def is_valid(s)
   stack.empty?
 end
 
+# 23) Merge k Sorted Lists
+# Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+class BinaryMinHeap
+  attr_accessor :store, :prc
 
+  def initialize(&prc)
+    @store = []
+  end
+
+  def peek
+    @store[0]
+  end
+
+  def count
+    @store.length
+  end
+
+  def self.parent_index(child_index)
+    raise "no parent" if (child_index - 1) / 2 < 0
+    (child_index - 1) / 2
+  end
+
+  def self.child_indices(parent_index, length)
+    children = [parent_index * 2 + 1, parent_index * 2 + 2]
+    children.select { |child| child < length }
+  end
+
+  def self.heapify_up(array, child_index, &prc)
+    return array if child_index == 0
+
+    prc ||= Proc.new { |a, b| a <=> b }
+    parent_index = parent_index(child_index)
+
+    if prc.call(array[child_index], array[parent_index]) < 0
+      array[child_index], array[parent_index] = array[parent_index], array[child_index]
+      heapify_up(array, parent_index, &prc)
+    end
+
+    array
+  end
+
+  def self.heapify_down(array, parent_index, &prc)
+    prc ||= Proc.new { |a, b| a <=> b }
+    children = child_indices(parent_index, array.length)
+
+    if children.length == 2
+      child = prc.call(array[children[0]], array[children[1]]) < 1 ? children[0] : children[1]
+    elsif children.length == 1
+      child = children[0]
+    else
+      return array
+    end
+
+    if prc.call(array[child], array[parent_index]) < 0
+      array[child], array[parent_index] = array[parent_index], array[child]
+      heapify_down(array, child, &prc)
+    end
+
+    array
+  end
+
+  def push(val)
+    @store << val
+    BinaryMinHeap.heapify_up(@store, count - 1, &prc)
+  end
+
+  def extract
+    @store[0], @store[count - 1] = @store[count - 1], @store[0]
+    extracted = @store.pop
+    BinaryMinHeap.heapify_down(@store, 0, &prc)
+    extracted
+  end
+end
+
+def merge_k_lists(lists)
+  merged = BinaryMinHeap.new
+
+  lists.each do |list|
+    while list
+      merged.push(list.val)
+      list = list.next
+    end
+  end
+
+  sorted = []
+
+  until merged.store.empty?
+    sorted << merged.extract
+  end
+
+  sorted
+end
 
 
 
