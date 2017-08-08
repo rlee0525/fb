@@ -243,6 +243,10 @@ end
 
 # 23) Merge k Sorted Lists
 # Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+
+# Priority Queue 
+# Time: O(nlogk)
+# Space: O(logk)
 class PriorityQueue
   attr_accessor :store, :prc
 
@@ -332,6 +336,61 @@ def merge_k_lists(lists)
 
   dummy.next
 end
+
+# Divide and Conquer
+# Time: O(nlogk)
+# Space: O(1)
+def merge_two_lists(list1, list2)
+  return list2 unless list1
+  return list1 unless list2
+
+  dummy = current = ListNode.new(nil)
+
+  while list1 && list2
+    if list1.val > list2.val
+      current.next = list2
+      list2 = list2.next
+      current = current.next
+    else
+      current.next = list1
+      list1 = list1.next
+      current = current.next
+    end
+  end
+
+  current.next = list1 if list1
+  current.next = list2 if list2
+
+  dummy.next
+end
+
+def merge_k_lists(lists)
+  return [] if lists.empty?
+  return lists[0] if lists.length == 1
+  return merge_two_lists(lists[0], lists[1]) if lists.length == 2
+
+  mid = lists.length / 2
+  return merge_two_lists(merge_k_lists(lists[0...mid]), merge_k_lists(lists[mid..-1]))
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
