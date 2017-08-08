@@ -184,7 +184,9 @@ end
 # Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 
 def letter_combinations(digits)
-  digits = {
+  return [] if digits.empty?
+
+  keymap = {
     "1" => "",
     "2" => "abc",
     "3" => "def",
@@ -197,14 +199,47 @@ def letter_combinations(digits)
     "0" => " "
   }
 
-  
+  combinations = keymap[digits[0]].chars
+  stack = []
+
+  (1...digits.length).each do |idx|
+    stack = combinations
+    combinations = []
+
+    until stack.empty?
+      current = stack.pop
+      keymap[digits[idx]].each_char do |char|
+        combinations << current + char
+      end
+    end
+  end
+
+  combinations
 end
 
+# 20) Valid Parentheses
+# Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+# The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
 
+def is_valid(s)
+  stack = []
+  pairs = {
+    "(" => ")",
+    "{" => "}",
+    "[" => "]"
+  }
 
+  s.each_char do |char|
+    if pairs[char]
+      stack << char
+    else
+      current = stack.pop
+      return false if char != pairs[current]
+    end
+  end
 
-
-
+  stack.empty?
+end
 
 
 
