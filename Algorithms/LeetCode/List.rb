@@ -384,36 +384,55 @@ end
 # For k = 3, you should return: 3->2->1->4->5
 
 def reverse_k_group(head, k)
+  # no need to reverse unless head and k > 1
   return head unless head || k > 1
 
+  # create a dummy to start and refer to later when returning the result
   dummy = ListNode.new(0)
   dummy.next = head
-  curr = nex = pre = dummy
+
+  # 3 pointers:
+    # pre for starting point that only changes after reversing segments
+    # curr for current node that keeps on iterating
+    # nex for node after the current (curr and nex required for reversing)
+  pre = curr = nex = dummy
   count = 0
 
+  # Find out the length of the list
   while curr.next
     curr = curr.next
     count += 1
   end
 
+  # while there are segments with length of k in the list
   while count >= k
+    # set current as the first node of the segment
     curr = pre.next
+    # set nex as the last node of the segment
     nex = curr.next
 
+    # iterate k - 1 times
+    # swapping two numbers each time
+    # always inserting the last of that specific segment to the first (pre.next)
     (k - 1).times do
+      # connect current to node 2 after it
       curr.next = nex.next
+      # node after current is connected with the first node
       nex.next = pre.next
+      # reassign the first node of that segment
       pre.next = nex
+      # nex is the only value that keeps changing
       nex = curr.next
     end
 
+    # the starting point changes to current which is right before the first node of the next segment
     pre = curr
+    # completing one k segment
     count -= k
   end
 
   dummy.next
 end
-
 
 
 
