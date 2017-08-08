@@ -316,24 +316,25 @@ class BinaryMinHeap
 end
 
 def merge_k_lists(lists)
-  merged = BinaryMinHeap.new
+  queue = BinaryMinHeap.new
 
   lists.each do |list|
     while list
-      merged.push(list.val)
+      queue.push(list.val)
       list = list.next
     end
   end
 
-  sorted = []
-
-  until merged.store.empty?
-    sorted << merged.extract
+  dummy = tail = ListNode.new(nil)
+  
+  until queue.store.empty?
+    current = ListNode.new(queue.extract)
+    tail.next = current
+    tail = tail.next
   end
 
-  sorted
+  dummy.next
 end
-
 
 
 
