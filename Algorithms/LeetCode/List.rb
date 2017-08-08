@@ -373,6 +373,47 @@ def merge_k_lists(lists)
   return merge_two_lists(merge_k_lists(lists[0...mid]), merge_k_lists(lists[mid..-1]))
 end
 
+# 25) Reverse Nodes in k-Group
+# Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+# k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
+# You may not alter the values in the nodes, only nodes itself may be changed.
+# Only constant memory is allowed.
+# For example,
+# Given this linked list: 1->2->3->4->5
+# For k = 2, you should return: 2->1->4->3->5
+# For k = 3, you should return: 3->2->1->4->5
+
+def reverse_k_group(head, k)
+  return head unless head || k > 1
+
+  dummy = ListNode.new(0)
+  dummy.next = head
+  curr = nex = pre = dummy
+  count = 0
+
+  while curr.next
+    curr = curr.next
+    count += 1
+  end
+
+  while count >= k
+    curr = pre.next
+    nex = curr.next
+
+    (k - 1).times do
+      curr.next = nex.next
+      nex.next = pre.next
+      pre.next = nex
+      nex = curr.next
+    end
+
+    pre = curr
+    count -= k
+  end
+
+  dummy.next
+end
+
 
 
 
