@@ -243,7 +243,7 @@ end
 
 # 23) Merge k Sorted Lists
 # Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
-class BinaryMinHeap
+class PriorityQueue
   attr_accessor :store, :prc
 
   def initialize(&prc)
@@ -274,7 +274,7 @@ class BinaryMinHeap
     prc ||= Proc.new { |a, b| a <=> b }
     parent_index = parent_index(child_index)
 
-    if prc.call(array[child_index], array[parent_index]) < 0
+    if prc.call(array[child_index][0], array[parent_index][0]) < 0
       array[child_index], array[parent_index] = array[parent_index], array[child_index]
       heapify_up(array, parent_index, &prc)
     end
@@ -287,14 +287,14 @@ class BinaryMinHeap
     children = child_indices(parent_index, array.length)
 
     if children.length == 2
-      child = prc.call(array[children[0]], array[children[1]]) < 1 ? children[0] : children[1]
+      child = prc.call(array[children[0]][0], array[children[1]][0]) < 1 ? children[0] : children[1]
     elsif children.length == 1
       child = children[0]
     else
       return array
     end
 
-    if prc.call(array[child], array[parent_index]) < 0
+    if prc.call(array[child][0], array[parent_index][0]) < 0
       array[child], array[parent_index] = array[parent_index], array[child]
       heapify_down(array, child, &prc)
     end
@@ -304,39 +304,34 @@ class BinaryMinHeap
 
   def push(val)
     @store << val
-    BinaryMinHeap.heapify_up(@store, count - 1, &prc)
+    PriorityQueue.heapify_up(@store, count - 1, &prc)
   end
 
   def extract
     @store[0], @store[count - 1] = @store[count - 1], @store[0]
     extracted = @store.pop
-    BinaryMinHeap.heapify_down(@store, 0, &prc)
+    PriorityQueue.heapify_down(@store, 0, &prc)
     extracted
   end
 end
 
 def merge_k_lists(lists)
-  queue = BinaryMinHeap.new
+  dummy = current = ListNode.new(nil)
+  queue = PriorityQueue.new
 
   lists.each do |list|
-    while list
-      queue.push(list.val)
-      list = list.next
-    end
+    queue.push([list.val, list]) if list
   end
 
-  dummy = tail = ListNode.new(nil)
-  
-  until queue.store.empty?
-    current = ListNode.new(queue.extract)
-    tail.next = current
-    tail = tail.next
+  until queue.count == 0
+    smallest = queue.extract[1]
+    current.next = smallest
+    current = current.next
+    queue.push([smallest.next.val, smallest.next]) if smallest.next
   end
 
   dummy.next
 end
-
-
 
 
 
