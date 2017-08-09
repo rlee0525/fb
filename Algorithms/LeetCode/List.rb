@@ -443,7 +443,7 @@ end
 
 def remove_duplicates(nums)
   return 0 if nums.empty? 
-  
+
   slow = 0
   fast = 1
 
@@ -459,7 +459,21 @@ def remove_duplicates(nums)
   slow + 1
 end
 
+# 28) Implement strStr()
+# Implement strStr().
+# Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
+# Brute-force 
+# Time: O(NM)
+def str_str(haystack, needle)
+  return 0 if haystack.empty? && needle.empty?
+
+  (0...haystack.length).each do |i|
+    return i if haystack[i...i + needle.length] == needle
+  end
+
+  -1
+end
 
 
 
