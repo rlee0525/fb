@@ -593,10 +593,10 @@ end
 # Output: "1211"
 
 def count_and_say(n)
-  output = current = "1"
+  current = "1"
   
   (n - 1).times do
-    output = ""
+    temp = ""
     prev = current[0]
     count = 0
     idx = 0
@@ -605,7 +605,7 @@ def count_and_say(n)
       if prev == current[idx]
         count += 1
       else
-        output += count.to_s + prev
+        temp += count.to_s + prev
         prev = current[idx]
         count = 1
       end
@@ -613,8 +613,8 @@ def count_and_say(n)
       idx += 1
     end
     
-    output += count.to_s + prev unless count == 0
-    current = output
+    temp += count.to_s + prev
+    current = temp
   end
 
   current
