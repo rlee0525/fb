@@ -475,8 +475,62 @@ def str_str(haystack, needle)
   -1
 end
 
+# KMP Substring Search
+# Within the pattern, is there a suffix that matches prefix?
+# Build temp array O(n) for the pattern
+def create_pattern(pattern)
+  # prefix pointer
+  j = 0
+  # iterating pointer
+  i = 1
+  # temp array with first index as always 0
+  arr = [0]
 
+  # iterate O(n)
+  while i < pattern.length
+    # if values at two pointers match, store j + 1 and move both pointers
+    if pattern[i] == pattern[j]
+      arr[i] = j + 1
+      j += 1
+      i += 1
+    else
+      # if j is not 0 and still not the same, we look at previous index value and move j pointer
+      if j != 0
+        j = arr[j - 1]
+      else
+      # if j is 0 and pattern is different, we set the value to 0
+      # iterate
+        arr[i] = 0
+        i += 1
+      end
+    end
+  end
 
+  arr
+end
+
+def str_str(string, pattern)
+  return 0 if pattern.empty?
+
+  temp = create_pattern(pattern)
+  i, j = 0, 0
+
+  while i < string.length && j < pattern.length
+    if string[i] == pattern[j]
+      j += 1
+      i += 1
+      return i - pattern.length if j == pattern.length
+    else
+      if j != 0
+        j = temp[j - 1]
+      else
+        i += 1
+      end
+    end
+  end
+
+  -1
+end
 
 
 
