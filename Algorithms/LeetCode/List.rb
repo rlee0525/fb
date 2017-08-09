@@ -620,7 +620,43 @@ def count_and_say(n)
   current
 end
 
+# 43) Multiply Strings
+# Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2.
+# Note:
+# The length of both num1 and num2 is < 110.
+# Both num1 and num2 contains only digits 0-9.
+# Both num1 and num2 does not contain any leading zero.
+# You must not use any built-in BigInteger library or convert the inputs to integer directly.
 
+def multiply(num1, num2)
+  res = Array.new(num1.length + num2.length, 0)
+  i = num1.length - 1
+
+  while i >= 0
+    j = num2.length - 1
+    
+    while j >= 0
+      multi = num1[i].to_i * num2[j].to_i
+      p1 = i + j
+      p2 = i + j + 1
+      sum = multi + res[p2]
+
+      res[p1] += sum / 10
+      res[p2] = sum % 10
+      j -= 1
+    end
+
+    i -= 1
+  end
+
+  multiple = ""
+
+  res.each do |val|
+    multiple += val.to_s unless multiple.empty? && val == 0
+  end
+
+  return multiple.empty? ? "0" : multiple
+end
 
 
 
