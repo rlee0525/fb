@@ -733,6 +733,25 @@ def my_pow(x, n)
   res
 end
 
+def merge(intervals)
+  return [] if intervals.empty?
+  intervals = intervals.sort_by { |interval| interval.start }
+  current = intervals[0]
+  merged = []
+
+  (1...intervals.length).each do |i|
+    interval = intervals[i]
+    if current.end >= interval.start
+      current = Interval.new(current.start, [current.end, interval.end].max)
+    else
+      merged << current
+      current = interval
+    end
+  end
+
+  merged << current
+  merged
+end
 
 
 
