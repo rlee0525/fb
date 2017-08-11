@@ -733,6 +733,7 @@ def my_pow(x, n)
   res
 end
 
+# 56) Merge Intervals
 def merge(intervals)
   return [] if intervals.empty?
   intervals = intervals.sort_by { |interval| interval.start }
@@ -752,6 +753,38 @@ def merge(intervals)
   merged << current
   merged
 end
+
+# 57) Insert Interval
+def insert(intervals, new_interval)
+  merged, idx = [], 0
+
+  while idx < intervals.length && intervals[idx].end < new_interval.start
+    merged << intervals[idx]
+    idx += 1
+  end
+
+  while idx < intervals.length && new_interval.end >= intervals[idx].start
+    new_interval = Interval.new([intervals[idx].start, new_interval.start].min, [intervals[idx].end, new_interval.end].max)
+    idx += 1
+  end
+
+  merged << new_interval
+
+  while idx < intervals.length
+    merged << intervals[idx]
+    idx += 1
+  end
+
+  merged
+end
+
+
+
+
+
+
+
+
 
 
 
