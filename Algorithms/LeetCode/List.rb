@@ -778,8 +778,27 @@ def insert(intervals, new_interval)
   merged
 end
 
+# 67) Add Binary
+# built-in method
+def add_binary(a, b)
+  (a.to_i(2) + b.to_i(2)).to_s(2)
+end
 
+# iterative method
+def add_binary(a, b)
+  i, j, res, digit_sum = a.length - 1, b.length - 1, "", 0
 
+  while i >= 0 || j >= 0 || digit_sum == 1
+    digit_sum += i >= 0 ? a[i].to_i : 0
+    digit_sum += j >= 0 ? b[j].to_i : 0
+    res = (digit_sum % 2).to_s + res
+    digit_sum /= 2
+    i -= 1
+    j -= 1
+  end
+
+  res
+end
 
 
 
