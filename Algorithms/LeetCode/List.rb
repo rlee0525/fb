@@ -697,6 +697,30 @@ def is_match(s, p)
   dp[s.length][p.length]
 end
 
+# 49) Group Anagrams
+def group_anagrams(strs)
+  group = Hash.new { |h, k| h[k] = [] }
+  strs.each do |str|
+    group[str.chars.sort.join("")] << str
+  end
+
+  group.values
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
