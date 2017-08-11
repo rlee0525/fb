@@ -707,21 +707,31 @@ def group_anagrams(strs)
   group.values
 end
 
+# 50) Pow(x, n)
+# O(log n) - recursion
+def my_pow(x, n)
+  return 1 if n == 0
+  return 1 / my_pow(x, -n) if n < 0
+  return x * my_pow(x, n - 1) if n.odd?
+  return my_pow(x * x, n / 2)
+end
 
+# O(log n) - iterative (testing bitwise)
+# Could be argued as constant as Max num is 2 ^ 32 meaning n == 32. 
+def my_pow(x, n)
+  x, n = 1 / x, -n if n < 0
+  res = 1
 
+  while n > 0
+    # check if n is odd
+    res *= x if n & 1 != 0
+    x *= x
+    # divide by 2
+    n >>= 1
+  end
 
-
-
-
-
-
-
-
-
-
-
-
-
+  res
+end
 
 
 
