@@ -634,7 +634,7 @@ def multiply(num1, num2)
 
   while i >= 0
     j = num2.length - 1
-    
+
     while j >= 0
       multi = num1[i].to_i * num2[j].to_i
       p1 = i + j
@@ -658,7 +658,44 @@ def multiply(num1, num2)
   return multiple.empty? ? "0" : multiple
 end
 
+# 44) Wildcard Matching 
+# Recursive solution - TLE
+def is_match(s, p)
+  return s.empty? if p.empty?
 
+  if p[0] == "*"
+    is_match(s, p[1..-1]) ||
+      !s.empty? && is_match(s[1..-1], p)
+  else
+    !s.empty? &&
+      (s[0] == p[0] || p[0] == "?") &&
+      is_match(s[1..-1], p[1..-1])
+  end
+end
+
+# dp solution
+def is_match(s, p)
+  dp = Array.new(s.length + 1) { Array.new(p.length + 1, false) }
+  dp[0][0] = true
+
+  (1...dp[0].length).each do |i|
+    if p[i - 1] == "*"
+      dp[0][i] = dp[0][i - 1]
+    end
+  end
+
+  (1...dp.length).each do |i|
+    (1...dp[0].length).each do |j|
+      if s[i - 1] == p[j - 1] || p[j - 1] == "?"
+        dp[i][j] = dp[i - 1][j - 1]
+      elsif p[j - 1] == "*"
+        dp[i][j] = dp[i - 1][j - 1] || dp[i - 1][j] || dp[i][j - 1]
+      end
+    end
+  end
+
+  dp[s.length][p.length]
+end
 
 
 
