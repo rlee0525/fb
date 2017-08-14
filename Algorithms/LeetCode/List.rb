@@ -840,6 +840,20 @@ def my_sqrt(x)
 end
 
 # 71) Simplify Path
+def simplify_path(path)
+  stack = []
+  p = path.split("/")
+
+  p.each do |char|
+    if char == ".."
+      stack.pop unless stack.empty?
+    elsif char != "." && !char.empty?
+      stack << char
+    end
+  end
+
+  "/" + stack.join("/")
+end
 
 
 
