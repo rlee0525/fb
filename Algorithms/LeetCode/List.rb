@@ -855,6 +855,33 @@ def simplify_path(path)
   "/" + stack.join("/")
 end
 
+# 75) Sort Colors
+def sort_colors(nums)
+  i = j = 0
+
+  (0...nums.length).each do |k|
+    v = nums[k]
+    nums[k] = 2
+
+    if v < 2
+      nums[j] = 1
+      j += 1
+    end
+
+    if v < 1
+      nums[i] = 0
+      i += 1
+    end
+  end
+
+  nums
+end
+
+
+
+
+
+
 
 
 
