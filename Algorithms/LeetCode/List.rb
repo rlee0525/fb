@@ -800,6 +800,46 @@ def add_binary(a, b)
   res
 end
 
+# 69) Sqrt(x)
+def my_sqrt(x)
+  ans = 0
+  bit = 1 << 15
+  
+  while bit > 0
+    ans |= bit
+
+    if ans * ans > x
+      ans ^= bit
+    end
+
+    bit >>= 1
+  end
+
+  ans
+end
+
+def my_sqrt(x)
+  return x if x == 0 || x == 1
+
+  s, e, res = 1, x, 0
+  while s <= e
+    mid = (s + e) / 2
+    squared = mid * mid
+
+    if squared == x
+      return mid
+    elsif squared < x
+      s = mid + 1
+      res = mid
+    else
+      e = mid - 1
+    end
+  end
+
+  res
+end
+
+
 
 
 
