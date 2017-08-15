@@ -877,7 +877,57 @@ def sort_colors(nums)
   nums
 end
 
+# 76) Minimum Window Substring
+def min_window(s, t)
+  # when no window exists
+  return "" if s.length < t.length
+  
+  # pattern occurrence
+  pattern = {}
+  missing_count = 0
+  t.each_char do |char| 
+    if pattern[char]
+      pattern[char] += 1
+    else
+      pattern[char] = 1
+      missing_count += 1 # missing_count only keeps track of unique chars
+    end
+  end
 
+  # first window
+  s_idx = e_idx = 0
+  window = [-1, -1]
+  
+  while true # expand -> shrink -> expand -> shrink -> until the end
+    if e_idx < s.length && s_idx <= e_idx && missing_count > 0 # expand the window
+      if pattern[s[e_idx]]
+        pattern[s[e_idx]] -= 1
+        if pattern[s[e_idx]] == 0 # if that char reaches 0, we know we found all of that char
+          missing_count -= 1
+        end
+      end
+
+      e_idx += 1 # keep expanding the end index
+    elsif s_idx <= e_idx && missing_count == 0 # shrink the window
+      if window[0] == -1 || e_idx - s_idx < window[1] - window[0] # if the new range is smaller
+        window = [s_idx, e_idx]
+      end
+
+      if pattern[s[s_idx]]
+        pattern[s[s_idx]] += 1 # By shrinking, we add that value back to hash
+        if pattern[s[s_idx]] == 1 # By adding that value, add 1 to unique
+          missing_count += 1
+        end
+      end
+
+      s_idx += 1 # keep shrinking while missing_count == 0
+    else
+      break
+    end
+  end
+
+  window[0] == -1 ? "" : s[window[0]...window[1]]
+end
 
 
 
