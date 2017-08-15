@@ -956,6 +956,35 @@ def dfs(nums, res, idx, temp)
   end
 end
 
+# 79) Word Search
+def exist(board, word)
+  return false if board.empty?
+
+  (0...board.length).each do |i|
+    (0...board[0].length).each do |j|
+      return true if dfs(board, word, i, j)
+    end
+  end
+
+  false
+end
+
+def dfs(board, word, i, j)
+  return true if word.empty?
+  return false if i < 0 || j < 0 || i >= board.length || j >= board[0].length
+
+  if board[i][j] == word[0]
+    temp = board[i][j]
+    board[i][j] = "#"
+    res = dfs(board, word[1..-1], i + 1, j) || 
+          dfs(board, word[1..-1], i, j + 1) ||
+          dfs(board, word[1..-1], i - 1, j) ||
+          dfs(board, word[1..-1], i, j - 1)
+    board[i][j] = temp
+  end
+
+  res
+end
 
 
 
