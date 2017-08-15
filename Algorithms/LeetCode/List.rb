@@ -929,7 +929,20 @@ def min_window(s, t)
   window[0] == -1 ? "" : s[window[0]...window[1]]
 end
 
+# 78) Subsets
+def subsets(nums)
+  res = [[]]
+  nums.each do |num|
+    temp = []
+    res.each do |el|
+      temp << el + [num]
+    end
 
+    res += temp
+  end
+
+  res
+end
 
 
 
