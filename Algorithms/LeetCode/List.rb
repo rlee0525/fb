@@ -944,8 +944,17 @@ def subsets(nums)
   res
 end
 
+def subsets(nums, res = [])
+  dfs(nums, res, 0, [])
+  res
+end
 
-
+def dfs(nums, res, idx, temp)
+  res << temp
+  (i...nums.length).each do |i|
+    dfs(nums, res, i + 1, temp + [nums[i]])
+  end
+end
 
 
 
