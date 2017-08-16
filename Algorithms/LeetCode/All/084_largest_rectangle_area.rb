@@ -1,6 +1,6 @@
 # @param {Integer[]} heights
 # @return {Integer}
-# O(N ^ 2) => TLE
+# O(N ^ 2)
 def largest_rectangle_area(heights)
   max_rect = 0
   i = 0
@@ -10,9 +10,10 @@ def largest_rectangle_area(heights)
     end
 
     j = i
+    h = heights[i]
     while j >= 0
-      h = [heights[i], heights[j]].min
-      max_rect = [max_rect, h * (i - j + 1)]
+      h = [h, heights[j]].min
+      max_rect = [max_rect, h * (i - j + 1)].max
       j -= 1
     end
 
