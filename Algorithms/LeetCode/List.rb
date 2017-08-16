@@ -999,10 +999,45 @@ def remove_duplicates(nums)
   i
 end
 
+# 85) Maximal Rectangle
+def maximal_rectangle(matrix)
+  
+end
 
+# Maximum Histogram Area
+# Keep stack
+# [1, 2, 4]
+# i = 0
+# stack = [0]
 
+# i = 1
+# stack = [0, 1] because value at 1 is bigger than value at 0
 
+# i = 2
+# stack = [0, 1, 2]
 
+# keep popping and calculating the area
+# top = stack.pop = 2
+# i = 3
+# input[top] * (i - stack[-1] - 1)
+# area = max_area = 4 * (3 - 1 - 1) = 4
+
+# top = stack.pop = 1
+# area = 2 * (3 - 0 - 1) = 4
+
+# top = stack.pop = 0
+# area = input[top] * i = 1 * 3 = 3 if stack.empty?
+
+# ex) [2, 1, 2, 3, 1]
+# i = 0
+# stack = [0]
+
+# i = 1 (input[1] < input[stack.pop])
+# stack.pop
+# max_area = area = input[stack.pop] * 1 = 2
+
+# i = 2
+# stack = [1]
 
 
 
