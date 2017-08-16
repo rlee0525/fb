@@ -986,6 +986,21 @@ def dfs(board, word, i, j)
   res
 end
 
+# 80) Remove Duplicates from Sorted Array II
+def remove_duplicates(nums)
+  i = 0
+  nums.each do |num|
+    if i < 2 || nums[i - 2] < num
+      nums[i] = num
+      i += 1
+    end
+  end
+
+  i
+end
+
+
+
 
 
 
